@@ -1,29 +1,34 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <utility>
+#include <iomanip>
+
 using namespace std;
 
 int main()
 {
-    int n, m;
-    cin >> n >> m;
-    vector<int> numbers(n);
+    int n;
+    cin >> n;
+
+    double max = 0;
+    vector<double> numbers(n);
     for (int i = 0; i < n; i++)
     {
-        numbers[i] = i + 1;
-    }
-    for (int i = 0; i < m; i++)
-    {
-        int a, b;
-        cin >> a >> b;
-        reverse(numbers.begin() + (a - 1), numbers.begin() + b);
+        cin >> numbers[i];
+        if (max < numbers[i])
+        {
+            max = numbers[i];
+        }
     }
 
-    
+    double total = 0;
     for (int i = 0; i < n; i++)
     {
-        cout << numbers[i] << ' ';
+        double tmp;
+        tmp = numbers[i] * 100.0 / max;
+        numbers[i] = tmp;
+        total += numbers[i];
     }
+    cout << fixed << setprecision(6) << (double)(total / n) << '\n';
+
     return 0;
 }
