@@ -1,19 +1,29 @@
 #include <iostream>
-#include <set>
-#include <unordered_set>
+#include <vector>
+#include <algorithm>
+#include <utility>
 using namespace std;
 
 int main()
 {
-    int n = 42;
-    set<int> numbers;
-    for (int i = 0; i < 10; ++i)
+    int n, m;
+    cin >> n >> m;
+    vector<int> numbers(n);
+    for (int i = 0; i < n; i++)
     {
-        int input;
-        cin >> input;
-        numbers.insert(input % n);
+        numbers[i] = i + 1;
     }
-    cout << numbers.size() << endl;
+    for (int i = 0; i < m; i++)
+    {
+        int a, b;
+        cin >> a >> b;
+        reverse(numbers.begin() + (a - 1), numbers.begin() + b);
+    }
 
+    
+    for (int i = 0; i < n; i++)
+    {
+        cout << numbers[i] << ' ';
+    }
     return 0;
 }
