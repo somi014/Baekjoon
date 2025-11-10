@@ -1,26 +1,19 @@
 #include <iostream>
-#include <vector>
+#include <set>
+#include <unordered_set>
 using namespace std;
 
 int main()
 {
-    vector<bool> student(31, false);
-    int number;
-
-    for (int i = 1; i <= 28; ++i)
+    int n = 42;
+    set<int> numbers;
+    for (int i = 0; i < 10; ++i)
     {
-        cin >> number;
-        student[number] = true;
+        int input;
+        cin >> input;
+        numbers.insert(input % n);
     }
+    cout << numbers.size() << endl;
 
-    for (int i = 1; i <= 30; ++i)
-    {
-        int number;
-
-        if (student[i] == 0)
-        {
-            cout << i << endl;
-        }
-    }
     return 0;
 }
