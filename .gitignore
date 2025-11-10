@@ -1,0 +1,15 @@
+# C/C++
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dSYM/
+build/
+bin/
+.vscode/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.log
