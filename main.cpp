@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stack>
+#include <vector>
 
 using namespace std;
 
@@ -11,43 +11,29 @@ int main()
     int n;
     cin >> n;
 
-    int value;
-    stack<int> s;
+    string vps;
 
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; i++)
     {
-        string command;
-        cin >> command;
-
-        if (command == "push")
+        cin >> vps;
+        int count = 0;
+        if (vps[0] == ')')
         {
-            int v;
-            cin >> v;
-            s.push(v);
+            cout << "NO\n";
+            continue;
         }
-        else if (command == "pop")
+        for (char c : vps)
         {
-            if (s.empty())
+            if (c == '(')
+                ++count;
+            else if (c == ')')
+                --count;
+            if (count < 0)
             {
-                cout << -1 << '\n';
-                continue;
+                break;
             }
-            cout << s.top() << '\n';
-            s.pop();
         }
-        else if (command == "size")
-        {
-            cout << s.size() << '\n';
-        }
-        else if (command == "empty")
-        {
-            cout << (s.empty() ? 1 : 0) << '\n';
-        }
-        else if (command == "top")
-        {
-            value = s.empty() ? -1 : s.top();
-            cout << value << '\n';
-        }
+        cout << (count == 0 ? "YES\n" : "NO\n");
     }
 
     return 0;
