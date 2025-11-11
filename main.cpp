@@ -1,5 +1,5 @@
 #include <iostream>
-#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ int main()
     cin >> n;
 
     int value;
-    queue<int> q;
+    stack<int> s;
 
     for (int i = 0; i < n; ++i)
     {
@@ -23,33 +23,30 @@ int main()
         {
             int v;
             cin >> v;
-            q.push(v);
+            s.push(v);
         }
         else if (command == "pop")
         {
-            if (q.empty())
-                cout << -1 << '\n';
-            else
+            if (s.empty())
             {
-                cout << q.front() << '\n';
-                q.pop();
+                cout << -1 << '\n';
+                continue;
             }
+            cout << s.top() << '\n';
+            s.pop();
         }
         else if (command == "size")
         {
-            cout << q.size() << '\n';
+            cout << s.size() << '\n';
         }
         else if (command == "empty")
         {
-            cout << (q.empty() ? 1 : 0) << '\n';
+            cout << (s.empty() ? 1 : 0) << '\n';
         }
-        else if (command == "front")
+        else if (command == "top")
         {
-            cout << (q.empty() ? -1 : q.front()) << '\n';
-        }
-        else if (command == "back")
-        {
-            cout << (q.empty() ? -1 : q.back()) << '\n';
+            value = s.empty() ? -1 : s.top();
+            cout << value << '\n';
         }
     }
 
