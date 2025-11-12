@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 using namespace std;
 
 int main()
@@ -7,23 +7,22 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
 
-    vector<int> circle(n);
-    for (int i = 0; i < n; ++i)
-        circle[i] = i + 1;
-
-    int idx = 0;
-    cout << '<';
-    while (!circle.empty())
+    queue<int> numbers;
+    for (int i = 0; i < n; i++)
     {
-        idx = (idx + k - 1) % circle.size();
-        cout << circle[idx];
-        circle.erase(circle.begin() + idx);
-        if (!circle.empty())
-            cout << ", ";
+        numbers.push(i + 1);
     }
-    cout << ">\n";
+
+    while (numbers.size() > 1)
+    {
+        numbers.pop();
+        int first = numbers.front();
+        numbers.pop();
+        numbers.push(first);
+    }
+    cout << numbers.front() << '\n';
     return 0;
 }
