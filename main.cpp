@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 int main()
@@ -8,33 +7,23 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    string vps;
+    vector<int> circle(n);
+    for (int i = 0; i < n; ++i)
+        circle[i] = i + 1;
 
-    for (int i = 0; i < n; i++)
+    int idx = 0;
+    cout << '<';
+    while (!circle.empty())
     {
-        cin >> vps;
-        int count = 0;
-        if (vps[0] == ')')
-        {
-            cout << "NO\n";
-            continue;
-        }
-        for (char c : vps)
-        {
-            if (c == '(')
-                ++count;
-            else if (c == ')')
-                --count;
-            if (count < 0)
-            {
-                break;
-            }
-        }
-        cout << (count == 0 ? "YES\n" : "NO\n");
+        idx = (idx + k - 1) % circle.size();
+        cout << circle[idx];
+        circle.erase(circle.begin() + idx);
+        if (!circle.empty())
+            cout << ", ";
     }
-
+    cout << ">\n";
     return 0;
 }
