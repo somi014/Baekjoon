@@ -1,5 +1,6 @@
 #include <iostream>
-#include <queue>
+#include <deque>
+
 using namespace std;
 
 int main()
@@ -7,22 +8,43 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    cin >> n;
+    int N;
+    if (!(cin >> N))
+        return 0;
 
-    queue<int> numbers;
-    for (int i = 0; i < n; i++)
+    deque<pair<int, int>> a;
+    for (int i = 1; i <= N; ++i)
     {
-        numbers.push(i + 1);
+        int mv;
+        cin >> mv;
+        a.emplace_back(i, mv);
     }
 
-    while (numbers.size() > 1)
+    while (!a.empty())
     {
-        numbers.pop();
-        int first = numbers.front();
-        numbers.pop();
-        numbers.push(first);
+        int index = a.front().first;
+        int move = a.front().second;
+        a.pop_front();
+        cout << index << ' ';
+
+        if (0 < move)
+        {
+            for (int i = 0; i < move - 1; i++)
+            {
+                a.push_back(a.front());
+                a.pop_front();
+            }
+        }
+        else
+        {
+            move = -move;
+            for (int i = 0; i < move; i++)
+            {
+                a.push_front(a.back());
+                a.pop_back();
+            }
+        }
     }
-    cout << numbers.front() << '\n';
+    cout << '\n';
     return 0;
 }
