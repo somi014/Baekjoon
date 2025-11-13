@@ -1,6 +1,6 @@
 #include <iostream>
-#include <deque>
-
+#include <list>
+#include <vector>
 using namespace std;
 
 int main()
@@ -12,7 +12,7 @@ int main()
     if (!(cin >> N))
         return 0;
 
-    deque<pair<int, int>> a;
+    list<pair<int, int>> a;
     for (int i = 1; i <= N; ++i)
     {
         int mv;
@@ -20,30 +20,63 @@ int main()
         a.emplace_back(i, mv);
     }
 
+    auto it = a.begin();
+    vector<int> order;
+    order.reserve(N);
+
     while (!a.empty())
     {
-        int index = a.front().first;
-        int move = a.front().second;
-        a.pop_front();
-        cout << index << ' ';
+        int idx = it->first;
+        int mv = it->second;
+        order.push_back(idx);
 
-        if (0 < move)
+        auto erase_it = it;
+
+        if (a.size() == 1)
         {
-            for (int i = 0; i < move - 1; i++)
+            a.erase(erase_it);
+            break;
+        }
+
+        if (mv > 0)
+        {
+            auto next_it = erase_it;
+            ++next_it;
+            if (next_it == a.end())
+                next_it = a.begin();
+            a.erase(erase_it);
+
+            it = next_it;
+
+            for (int k = 1; k < mv; ++k)
             {
-                a.push_back(a.front());
-                a.pop_front();
+                ++it;
+                if (it == a.end())
+                    it = a.begin();
             }
         }
         else
         {
-            move = -move;
-            for (int i = 0; i < move; i++)
+            int step = -mv;
+            auto prev_it = (erase_it == a.begin()) ? prev(a.end()) : prev(erase_it);
+            a.erase(erase_it);
+            it = prev_it;
+
+            for (int k = 1; k < step; ++k)
             {
-                a.push_front(a.back());
-                a.pop_back();
+                if (it == a.begin())
+                    it = prev(a.end());
+                else
+                    --it;
             }
         }
+    }
+
+    for (int i = 0; i < (int)order.size(); ++i)
+    {
+        if (i)
+            cout << ' ';
+        cout << order[i];
     }
     cout << '\n';
     return 0;
