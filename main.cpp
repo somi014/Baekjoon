@@ -1,6 +1,7 @@
 #include <iostream>
-#include <list>
 #include <vector>
+#include <stack>
+#include <iomanip>
 using namespace std;
 
 int main()
@@ -12,72 +13,48 @@ int main()
     if (!(cin >> N))
         return 0;
 
-    list<pair<int, int>> a;
-    for (int i = 1; i <= N; ++i)
+    string postfix;
+    cin >> postfix;
+
+    vector<double> val(26, 0.0);
+    for (int i = 0; i < N; ++i)
     {
-        int mv;
-        cin >> mv;
-        a.emplace_back(i, mv);
+        cin >> val[i];
     }
 
-    auto it = a.begin();
-    vector<int> order;
-    order.reserve(N);
+    stack<double> st;
 
-    while (!a.empty())
+    for (char c : postfix)
     {
-        int idx = it->first;
-        int mv = it->second;
-        order.push_back(idx);
-
-        auto erase_it = it;
-
-        if (a.size() == 1)
+        if ('A' <= c && c <= 'Z')
         {
-            a.erase(erase_it);
-            break;
-        }
-
-        if (mv > 0)
-        {
-            auto next_it = erase_it;
-            ++next_it;
-            if (next_it == a.end())
-                next_it = a.begin();
-            a.erase(erase_it);
-
-            it = next_it;
-
-            for (int k = 1; k < mv; ++k)
-            {
-                ++it;
-                if (it == a.end())
-                    it = a.begin();
-            }
+            st.push(val[c - 'A']);
         }
         else
         {
-            int step = -mv;
-            auto prev_it = (erase_it == a.begin()) ? prev(a.end()) : prev(erase_it);
-            a.erase(erase_it);
-            it = prev_it;
+            double a = st.top();
+            st.pop();
+            double b = st.top();
+            st.pop();
 
-            for (int k = 1; k < step; ++k)
+            switch (c)
             {
-                if (it == a.begin())
-                    it = prev(a.end());
-                else
-                    --it;
+            case '+':
+                st.push(b + a);
+                break;
+            case '-':
+                st.push(b - a);
+                break;
+            case '*':
+                st.push(b * a);
+                break;
+            case '/':
+                st.push(b / a);
+                break;
             }
         }
     }
 
-    for (int i = 0; i < (int)order.size(); ++i)
-    {
-        if (i)
-            cout << ' ';
-        cout << order[i];
-    }
-    cout << '\n';
+    cout << fixed << setprecision(2) << st.top() << '\n';
     return 0;
 }
