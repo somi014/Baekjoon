@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <stack>
-#include <iomanip>
+#include <queue>
+#include <vector>
 using namespace std;
 
 int main()
@@ -10,51 +10,48 @@ int main()
     cin.tie(nullptr);
 
     int N;
-    if (!(cin >> N))
-        return 0;
+    cin >> N;
 
-    string postfix;
-    cin >> postfix;
-
-    vector<double> val(26, 0.0);
-    for (int i = 0; i < N; ++i)
+    queue<int> stk;
+    for (int i = 0; i < N; i++)
     {
-        cin >> val[i];
+        int num;
+        cin >> num;
+        stk.push(num);
     }
 
-    stack<double> st;
-
-    for (char c : postfix)
+    stack<int> copy;
+    vector<char> result;
+    int index = 1;
+    while (stk.empty() == false)
     {
-        if ('A' <= c && c <= 'Z')
+        if (stk.front() >= index)
         {
-            st.push(val[c - 'A']);
-        }
-        else
-        {
-            double a = st.top();
-            st.pop();
-            double b = st.top();
-            st.pop();
-
-            switch (c)
+            int temp = index;
+            for (int j = temp; j <= temp; j++)
             {
-            case '+':
-                st.push(b + a);
-                break;
-            case '-':
-                st.push(b - a);
-                break;
-            case '*':
-                st.push(b * a);
-                break;
-            case '/':
-                st.push(b / a);
-                break;
+                copy.push(j);
+                result.push_back('+');
+                index++;
             }
         }
+
+        if (copy.top() == stk.front())
+        {
+            result.push_back('-');
+            copy.pop();
+            stk.pop();
+        }
+        else if (copy.top() > stk.front())
+        {
+            cout << "NO" << "\n";
+            return 0;
+        }
     }
 
-    cout << fixed << setprecision(2) << st.top() << '\n';
+    for (char c : result)
+    {
+        cout << c << "\n";
+    }
     return 0;
 }
