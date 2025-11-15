@@ -1,7 +1,5 @@
 #include <iostream>
 #include <stack>
-#include <queue>
-#include <vector>
 using namespace std;
 
 int main()
@@ -9,49 +7,33 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int N;
-    cin >> N;
+    string s;
+    cin >> s;
 
-    queue<int> stk;
-    for (int i = 0; i < N; i++)
-    {
-        int num;
-        cin >> num;
-        stk.push(num);
-    }
+    stack<char> st;
+    long long total = 0;
 
-    stack<int> copy;
-    vector<char> result;
-    int index = 1;
-    while (stk.empty() == false)
+    for (int i = 0; i < (int)s.size(); ++i)
     {
-        if (stk.front() >= index)
+        if (s[i] == '(')
         {
-            int temp = index;
-            for (int j = temp; j <= temp; j++)
+            st.push('(');
+        }
+        else
+        { 
+            st.pop();
+            if (i > 0 && s[i - 1] == '(')
             {
-                copy.push(j);
-                result.push_back('+');
-                index++;
+                total += st.size();
+            }
+            else
+            {
+                // 막대 끝
+                total += 1;
             }
         }
-
-        if (copy.top() == stk.front())
-        {
-            result.push_back('-');
-            copy.pop();
-            stk.pop();
-        }
-        else if (copy.top() > stk.front())
-        {
-            cout << "NO" << "\n";
-            return 0;
-        }
     }
 
-    for (char c : result)
-    {
-        cout << c << "\n";
-    }
+    cout << total << '\n';
     return 0;
 }
