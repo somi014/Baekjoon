@@ -1,7 +1,6 @@
 #include <iostream>
-#include <vector>
-#include <unordered_map>
 #include <string>
+#include <map>
 using namespace std;
 
 int main()
@@ -12,28 +11,25 @@ int main()
     int N, M;
     cin >> N >> M;
 
-    vector<string> names(N);
-    unordered_map<string, int> indexMap(N);
+    map<string, int> names;
     for (int i = 0; i < N; i++)
-    {
-        cin >> names[i];
-        indexMap[names[i]] = i;
-    }
-
-    for (int i = 0; i < M; i++)
     {
         string input;
         cin >> input;
-        if (input[0] >= '0' && input[0] <= '9') // 숫자일 경우
+        names[input] = i;
+    }
+
+    int answer = 0;
+    for (int i = 0; i < M; i++)
+    {
+        string query;
+        cin >> query;
+        if (names.find(query) != names.end())
         {
-            int idx = stoi(input) - 1;
-            cout << names[idx] << '\n';
-        }
-        else // 이름일 경우
-        {
-            cout << indexMap[input] + 1 << '\n';
+            answer++;
         }
     }
 
+    cout << answer << '\n';
     return 0;
 }
