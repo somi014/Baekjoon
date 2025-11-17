@@ -1,5 +1,7 @@
 #include <iostream>
-#include <stack>
+#include <vector>
+#include <unordered_map>
+#include <string>
 using namespace std;
 
 int main()
@@ -7,33 +9,31 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string s;
-    cin >> s;
+    int N, M;
+    cin >> N >> M;
 
-    stack<char> st;
-    long long total = 0;
-
-    for (int i = 0; i < (int)s.size(); ++i)
+    vector<string> names(N);
+    unordered_map<string, int> indexMap(N);
+    for (int i = 0; i < N; i++)
     {
-        if (s[i] == '(')
+        cin >> names[i];
+        indexMap[names[i]] = i;
+    }
+
+    for (int i = 0; i < M; i++)
+    {
+        string input;
+        cin >> input;
+        if (input[0] >= '0' && input[0] <= '9') // 숫자일 경우
         {
-            st.push('(');
+            int idx = stoi(input) - 1;
+            cout << names[idx] << '\n';
         }
-        else
-        { 
-            st.pop();
-            if (i > 0 && s[i - 1] == '(')
-            {
-                total += st.size();
-            }
-            else
-            {
-                // 막대 끝
-                total += 1;
-            }
+        else // 이름일 경우
+        {
+            cout << indexMap[input] + 1 << '\n';
         }
     }
 
-    cout << total << '\n';
     return 0;
 }
