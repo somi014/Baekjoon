@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <map>
+#include <queue>
 using namespace std;
 
 int main()
@@ -8,28 +8,27 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int N, M;
-    cin >> N >> M;
-
-    map<string, int> names;
-    for (int i = 0; i < N; i++)
-    {
-        string input;
-        cin >> input;
-        names[input] = i;
-    }
+    int N;
+    cin >> N;
 
     int answer = 0;
-    for (int i = 0; i < M; i++)
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    for (int i = 0; i < N; i++)
     {
-        string query;
-        cin >> query;
-        if (names.find(query) != names.end())
+        for (int j = 0; j < N; j++)
         {
-            answer++;
+            int num;
+            cin >> num;
+            pq.push(num);
+
+            if (pq.size() > N)
+            {
+                pq.pop();
+            }
         }
     }
 
-    cout << answer << '\n';
+    cout << pq.top() << '\n';
     return 0;
 }
