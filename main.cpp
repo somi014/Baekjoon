@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include <queue>
+#include <map>
+#include <iomanip>
 using namespace std;
 
 int main()
@@ -8,27 +9,22 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int N;
-    cin >> N;
+    map<string, int> treeList;
+    int total = 0;
 
-    int answer = 0;
-    priority_queue<int, vector<int>, greater<int>> pq;
-
-    for (int i = 0; i < N; i++)
+    string tree;
+    while (getline(cin, tree))
     {
-        for (int j = 0; j < N; j++)
-        {
-            int num;
-            cin >> num;
-            pq.push(num);
-
-            if (pq.size() > N)
-            {
-                pq.pop();
-            }
-        }
+        if (tree.empty())
+            continue;
+        treeList[tree]++;
+        total++;
     }
 
-    cout << pq.top() << '\n';
+    for (auto &c : treeList)
+    {
+        double ratio = (c.second * 100.0) / total;
+        cout << fixed << setprecision(4) << c.first << ' ' << ratio << '\n';
+    }
     return 0;
 }
