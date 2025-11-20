@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <map>
+#include <queue>
 #include <iomanip>
 using namespace std;
 
@@ -9,23 +9,22 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    map<string, int> treeList;
-    int total = 0;
+    int N;
+    cin >> N;
 
-    string tree;
-    while (getline(cin, tree))
+    priority_queue<int, vector<int>, less<int>> pq;
+    for (int i = 0; i < N; i++)
     {
-        if (tree.empty())
-            continue;
-        treeList[tree]++;
-        total++;
+        int num;
+        cin >> num;
+        pq.push(num);
+
+        if (num == 0)
+        {
+            cout << pq.top() << "\n";
+            pq.pop();
+        }
     }
 
-    for (auto &c : treeList)
-    {
-        double ratio = (c.second * 100.0) / total;
-        cout << fixed << setprecision(4) << c.first << ' ' << ratio << '\n';
-    }
-    
     return 0;
 }
