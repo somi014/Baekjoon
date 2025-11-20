@@ -26,5 +26,6 @@ int main()
         double ratio = (c.second * 100.0) / total;
         cout << fixed << setprecision(4) << c.first << ' ' << ratio << '\n';
     }
+    
     return 0;
 }
